@@ -112,7 +112,7 @@
                 {
                     "type": "light",
                     "light": {
-                        "intensity": 1.0,
+                        "intensity": 2.0,
                         "type": "sun",
                         "outerAngle": 120.0,
                         "shadows": true,
@@ -160,7 +160,7 @@
                                 "noiseScale": 9.0
                             }
                         ],
-                        "gridParent": "18",
+                        "gridParent": "13",
                         "gridSize": [
                             64.0,
                             64.0
@@ -188,118 +188,31 @@
             "name": "[ Material Definitions ]"
         },
         "13": {
-            "name": "resource",
-            "parent": "12",
-            "components": [
-                {
-                    "type": "mesh",
-                    "mesh": {
-                        "mesh": "2",
-                        "material": null
-                    }
-                }
-            ],
-            "scaling": [
-                0.001,
-                0.001,
-                0.001
-            ]
+            "name": "GridRoot"
         },
         "14": {
-            "name": "grass",
+            "name": "Mesh",
             "parent": "12",
             "components": [
                 {
                     "type": "mesh",
                     "mesh": {
-                        "mesh": "2",
+                        "material": "7"
+                    }
+                },
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "material": "8"
+                    }
+                },
+                {
+                    "type": "mesh",
+                    "mesh": {
                         "material": "2"
                     }
                 }
-            ],
-            "scaling": [
-                0.001,
-                0.001,
-                0.001
             ]
-        },
-        "15": {
-            "name": "hexagons_medieval",
-            "parent": "12",
-            "components": [
-                {
-                    "type": "mesh",
-                    "mesh": {
-                        "mesh": "2",
-                        "material": "8"
-                    }
-                }
-            ],
-            "scaling": [
-                0.001,
-                0.001,
-                0.001
-            ]
-        },
-        "16": {
-            "name": "Mesh",
-            "parent": "12",
-            "scaling": [
-                1.0,
-                1.0,
-                1.0
-            ]
-        },
-        "17": {
-            "name": "Mesh",
-            "parent": "12",
-            "components": [
-                {
-                    "type": "mesh",
-                    "mesh": {
-                        "material": "4",
-                        "mesh": "2"
-                    }
-                }
-            ],
-            "scaling": [
-                0.001,
-                0.001,
-                0.001
-            ]
-        },
-        "18": {
-            "name": "GridRoot"
-        },
-        "19": {
-            "link": {
-                "name": "Stone_Chunks_Large",
-                "file": "assets\\Models\\Stone_Chunks_Large.fbx"
-            },
-            "parent": "16",
-            "translation": [
-                3.5,
-                0.0,
-                0.0
-            ],
-            "rotation": [
-                -0.7071068,
-                0.0,
-                0.0,
-                0.7071067
-            ],
-            "scaling": [
-                1.0,
-                0.9999994,
-                0.9999994
-            ]
-        },
-        "20": {
-            "link": {
-                "name": "tree_single_A",
-                "file": "assets\\Models\\tree_single_A.fbx"
-            },
-            "parent": "16"
         }
     },
     "meshes": {
@@ -362,7 +275,7 @@
                 "font": "1"
             }
         },
-        "7": {
+        "1": {
             "link": {
                 "name": "resource",
                 "file": "assets\\Models\\Stone_Chunks_Large.fbx"
@@ -397,7 +310,7 @@
                     1.0
                 ]
             },
-            "pipeline": "2",
+            "pipeline": "10",
             "Flat": {
                 "color": [
                     0.0,
@@ -405,6 +318,16 @@
                     0.2015224,
                     1.0
                 ]
+            },
+            "Physical": {
+                "albedoColor": [
+                    0.0811995,
+                    0.690196,
+                    0.0,
+                    1.0
+                ],
+                "metallicFactor": 0.0,
+                "roughnessFactor": 1.0
             }
         },
         "3": {
@@ -525,10 +448,47 @@
                 ]
             }
         },
-        "8": {
+        "6": {
             "link": {
                 "name": "hexagons_medieval",
                 "file": "assets\\Models\\tree_single_A.fbx"
+            }
+        },
+        "7": {
+            "name": "ResourceBitsMaterial",
+            "pipeline": "11",
+            "Phong": {
+                "diffuseTexture": "2",
+                "ambientColor": [
+                    0.25,
+                    0.25,
+                    0.25,
+                    1.0
+                ]
+            },
+            "Flat": {
+                "flatTexture": "3"
+            },
+            "Physical": {
+                "albedoTexture": "1",
+                "metallicFactor": 0.0
+            }
+        },
+        "8": {
+            "name": "HexagonMaterial",
+            "pipeline": "11",
+            "Phong": {
+                "diffuseTexture": "1",
+                "ambientColor": [
+                    0.25,
+                    0.25,
+                    0.25,
+                    1.0
+                ]
+            },
+            "Physical": {
+                "albedoTexture": "2",
+                "metallicFactor": 0.0
             }
         }
     },
@@ -894,7 +854,8 @@
             "link": {
                 "name": "Flat Opaque Textured",
                 "file": "default"
-            }
+            },
+            "castShadows": true
         },
         "4": {
             "link": {
@@ -908,7 +869,8 @@
                 "file": "default"
             },
             "features": {
-                "WITH_EMISSIVE": true
+                "WITH_EMISSIVE": true,
+                "TEXTURED": false
             }
         },
         "6": {

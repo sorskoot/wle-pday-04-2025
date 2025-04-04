@@ -39,6 +39,11 @@
         "4": {
             "fileName": "assets/Textures/hexagons_medieval.png",
             "importerName": ""
+        },
+        "5": {
+            "fileName": "assets/Models/Stone_Chunks_Large.gltf",
+            "importerName": "",
+            "importPhysicalAsPhongMaterials": true
         }
     },
     "images": {
@@ -309,6 +314,12 @@
                 "name": "mesh_0",
                 "file": "assets\\Models\\tree_single_A.fbx"
             }
+        },
+        "3": {
+            "link": {
+                "name": "Stone_Chunks_Large",
+                "file": "assets\\Models\\Stone_Chunks_Large.gltf"
+            }
         }
     },
     "morphTargets": {},
@@ -338,6 +349,20 @@
                 "name": "hexagons_medieval.png",
                 "file": "assets\\Textures\\hexagons_medieval.png"
             }
+        },
+        "5": {
+            "name": "ResouceBitsTexture",
+            "image": "1"
+        },
+        "6": {
+            "name": "HexagonTexture",
+            "image": "2"
+        },
+        "7": {
+            "link": {
+                "name": "texture_0",
+                "file": "assets\\Models\\Stone_Chunks_Large.gltf"
+            }
         }
     },
     "materials": {
@@ -349,7 +374,7 @@
         },
         "1": {
             "name": "Grass",
-            "pipeline": "6",
+            "pipeline": "10",
             "Flat": {
                 "color": [
                     0.0,
@@ -371,6 +396,15 @@
                     0.25,
                     1.0
                 ]
+            },
+            "Physical": {
+                "albedoColor": [
+                    0.0811995,
+                    0.690196,
+                    0.0,
+                    1.0
+                ],
+                "metallicFactor": 0.0
             }
         },
         "2": {
@@ -459,6 +493,52 @@
                     1.0
                 ],
                 "shininess": 25
+            }
+        },
+        "4": {
+            "name": "ResourceBitsMaterial",
+            "pipeline": "11",
+            "Phong": {
+                "diffuseTexture": "5",
+                "ambientColor": [
+                    0.25,
+                    0.25,
+                    0.25,
+                    1.0
+                ]
+            },
+            "Flat": {
+                "flatTexture": "5"
+            },
+            "Physical": {
+                "albedoTexture": "5",
+                "metallicFactor": 0.0
+            }
+        },
+        "5": {
+            "name": "HexagonMaterial",
+            "pipeline": "11",
+            "Phong": {
+                "diffuseTexture": "6",
+                "ambientColor": [
+                    0.25,
+                    0.25,
+                    0.25,
+                    1.0
+                ]
+            },
+            "Flat": {
+                "flatTexture": "6"
+            },
+            "Physical": {
+                "albedoTexture": "6",
+                "metallicFactor": 0.0
+            }
+        },
+        "6": {
+            "link": {
+                "name": "resource",
+                "file": "assets\\Models\\Stone_Chunks_Large.gltf"
             }
         }
     },
@@ -580,16 +660,25 @@
                 0.7071068
             ]
         },
-        "7": {
+        "10": {
             "link": {
                 "name": "Stone_Chunks_Large",
-                "file": "assets\\Models\\Stone_Chunks_Large.fbx"
+                "file": "assets\\Models\\Stone_Chunks_Large.gltf"
             },
             "parent": "2",
             "scaling": [
                 0.4,
                 0.4,
                 0.4
+            ],
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "material": "4",
+                        "mesh": "3"
+                    }
+                }
             ]
         },
         "8": {
@@ -613,6 +702,15 @@
                 1.2,
                 1.1999948,
                 1.1999948
+            ],
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "material": "5",
+                        "mesh": "2"
+                    }
+                }
             ]
         },
         "9": {
@@ -656,7 +754,8 @@
             "link": {
                 "name": "Flat Opaque Textured",
                 "file": "default"
-            }
+            },
+            "castShadows": true
         },
         "5": {
             "link": {
