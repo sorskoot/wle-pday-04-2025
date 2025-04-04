@@ -14,7 +14,9 @@
     "dependencies": {
         "@wonderlandengine/components": "^1.2.1",
         "gl-matrix": "^3.4.3",
-        "@wonderlandengine/api": "file:../../Tools/Wonderland Nightly/js/api/wonderlandengine-api.tgz"
+        "@wonderlandengine/api": "file:../../Tools/Wonderland Nightly/js/api/wonderlandengine-api.tgz",
+        "@wonderlandengine/react-ui": "0.2.4",
+        "@sorskoot/wonderland-components": "1.4.4"
     },
     "overrides": {
         "@wonderlandengine/api": "$@wonderlandengine/api"
