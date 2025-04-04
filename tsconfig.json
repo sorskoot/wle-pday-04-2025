@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "target": "es2022",
+        "module": "nodenext",
+        "resolveJsonModule": true,
+        "moduleResolution": "nodenext",
+        "experimentalDecorators": true,
+        "jsx": "react",
+        "emitDecoratorMetadata": true
+    },
+    "exclude": ["node_modules", "dist", "tools"],
+    "include": ["./js/**/*.ts", "./js/**/*.tsx", "js/utils/noise.ts"],
+    "types": ["@types/**", "./types/*.d.ts"]
+}
