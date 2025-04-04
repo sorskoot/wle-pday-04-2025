@@ -12873,7 +12873,7 @@
     property.color(1, 0, 0, 1)
   ], InteractionManager.prototype, "notAllowed", 2);
 
-  // cache/tiles/js/_editor_index.js
+  // cache/buildings/js/_editor_index.js
   _registerEditor(dist_exports);
   _registerEditor(dist_exports2);
   _registerEditor(building_spawner_exports);

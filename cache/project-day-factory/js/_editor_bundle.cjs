@@ -12241,6 +12241,274 @@
   __publicField(BuildingSpawner, "TypeName", "building-spawner");
   __publicField(BuildingSpawner, "InheritProperties", true);
 
+  // js/components/game-manager.ts
+  var game_manager_exports = {};
+  __export(game_manager_exports, {
+    GameManager: () => GameManager
+  });
+
+  // js/utils/my-asserts.ts
+  var Assert = class {
+    /**
+     * Asserts that a value is a string.
+     * @param value - The value to check
+     * @throws Error if the value is not a string
+     */
+    static isString(value) {
+      if (typeof value !== "string") {
+        throw new Error("Value must be a string");
+      }
+    }
+    /**
+     * Asserts that a value is a number.
+     * @param value - The value to check
+     * @throws Error if the value is not a number
+     */
+    static isNumber(value) {
+      if (typeof value !== "number") {
+        throw new Error("Value must be a number");
+      }
+    }
+    /**
+     * Asserts that an object has a specific key.
+     * @param obj - The object to check
+     * @param key - The key to verify exists on the object
+     * @throws Error if the key does not exist on the object
+     */
+    static hasKey(obj, key) {
+      if (!(key in obj)) {
+        throw new Error(`Property ${String(key)} is missing`);
+      }
+    }
+    /**
+     * Asserts that a value is not null or undefined.
+     * @param value - The value to check
+     * @throws Error if the value is null or undefined
+     */
+    static isNotNull(value) {
+      if (value == null) {
+        throw new Error("Value cannot be null or undefined");
+      }
+    }
+    /**
+     * Asserts that a value is a boolean.
+     * @param value - The value to check
+     * @throws Error if the value is not a boolean
+     */
+    static isBoolean(value) {
+      if (typeof value !== "boolean") {
+        throw new Error("Value must be a boolean");
+      }
+    }
+    /**
+     * Asserts that a value is an array.
+     * @param value - The value to check
+     * @throws Error if the value is not an array
+     */
+    static isArray(value) {
+      if (!Array.isArray(value)) {
+        throw new Error("Value must be an array");
+      }
+    }
+    /**
+     * Asserts that a value is an object (not null, not an array).
+     * @param value - The value to check
+     * @throws Error if the value is not an object
+     */
+    static isObject(value) {
+      if (typeof value !== "object" || value === null || Array.isArray(value)) {
+        throw new Error("Value must be an object");
+      }
+    }
+    /**
+     * Asserts that a value is a function.
+     * @param value - The value to check
+     * @throws Error if the value is not a function
+     */
+    static isFunction(value) {
+      if (typeof value !== "function") {
+        throw new Error("Value must be a function");
+      }
+    }
+    /**
+     * Asserts that a value is an instance of a specific class.
+     * @param value - The value to check
+     * @param constructor - The constructor to check against
+     * @throws Error if the value is not an instance of the specified class
+     */
+    static isInstanceOf(value, constructor) {
+      if (!(value instanceof constructor)) {
+        throw new Error(`Value must be an instance of ${constructor.name}`);
+      }
+    }
+  };
+
+  // js/utils/Signal.ts
+  var STOP_PROPAGATION = "stop_propagation";
+  var Signal = class {
+    _receivers = [];
+    _modifyCount = 0;
+    /**
+     * Adds a new signal listener
+     * @param receiver - The function to call when the signal is dispatched
+     * @param scope - The scope to apply when calling the receiver
+     */
+    add(receiver, scope) {
+      Assert.isNotNull(receiver);
+      this._receivers.push({ receiver, scope });
+      ++this._modifyCount;
+    }
+    /**
+     * Adds a new signal listener to the top of the stack
+     * @param receiver - The function to call when the signal is dispatched
+     * @param scope - The scope to apply when calling the receiver
+     */
+    addToTop(receiver, scope) {
+      Assert.isNotNull(receiver);
+      this._receivers.unshift({ receiver, scope });
+      ++this._modifyCount;
+    }
+    /**
+     * Dispatches the signal to all receivers
+     * @param payload - Arguments to pass to the receivers
+     * @returns STOP_PROPAGATION if propagation was stopped, void otherwise
+     */
+    dispatch(...payload) {
+      const modifyState = this._modifyCount;
+      const n = this._receivers.length;
+      for (let i = 0; i < n; ++i) {
+        const { receiver, scope } = this._receivers[i];
+        if (receiver.apply(scope, payload) === STOP_PROPAGATION) {
+          return STOP_PROPAGATION;
+        }
+        if (modifyState !== this._modifyCount) {
+          return STOP_PROPAGATION;
+        }
+      }
+    }
+    /**
+     * Removes a specific receiver
+     * @param receiver - The receiver to remove
+     */
+    remove(receiver) {
+      let index = null;
+      const n = this._receivers.length;
+      for (let i = 0; i < n; ++i) {
+        if (this._receivers[i].receiver === receiver) {
+          index = i;
+          break;
+        }
+      }
+      if (index === null) {
+        throw new Error("Receiver not found in list");
+      }
+      this._receivers.splice(index, 1);
+      ++this._modifyCount;
+    }
+    /**
+     * Removes all receivers
+     */
+    removeAll() {
+      this._receivers = [];
+      ++this._modifyCount;
+    }
+  };
+
+  // js/classes/globalEvents.ts
+  var _GlobalEvents = class {
+    interaction = new Signal();
+    placeBuilding = new Signal();
+    onKeyPress = new Signal();
+    static get instance() {
+      if (!_GlobalEvents._instance) {
+        _GlobalEvents._instance = new _GlobalEvents();
+      }
+      return _GlobalEvents._instance;
+    }
+    constructor() {
+    }
+  };
+  var GlobalEvents = _GlobalEvents;
+  __publicField(GlobalEvents, "_instance");
+
+  // js/classes/BuildingPlacing.ts
+  var BuildingPlacing = class {
+    _rotationY = 0;
+    // Store rotation around Y-axis in degrees
+    _currentBuilding = 0;
+    constructor() {
+      GlobalEvents.instance.interaction.add(this._onInteraction, this);
+      GlobalEvents.instance.onKeyPress.add(this._onKeyPress, this);
+    }
+    /**
+     * Rotates the building preview clockwise around the Y-axis.
+     * @param degrees - The amount to rotate in degrees.
+     */
+    rotateBuilding(degrees) {
+      this._rotationY = (this._rotationY + degrees) % 360;
+    }
+    _onInteraction = (event, position) => {
+      if (GlobalEvents.instance.placeBuilding.dispatch(this._currentBuilding, position, this._rotationY)) {
+        console.log(`Building placed at: ${position}, rotation: ${this._rotationY}`);
+      }
+    };
+    _onKeyPress = (key) => {
+      if (key === "r") {
+        this.rotateBuilding(90);
+      }
+      if (key === "1") {
+        this._currentBuilding = 0;
+      }
+      if (key === "2") {
+        this._currentBuilding = 1;
+      }
+    };
+  };
+
+  // js/classes/KeyboardLogic.ts
+  var KeyboardLogic = class {
+    constructor() {
+      this._initKeyPressListener();
+    }
+    _initKeyPressListener() {
+      window.addEventListener("keydown", this._onKeyPress.bind(this));
+    }
+    _onKeyPress(event) {
+      GlobalEvents.instance.onKeyPress.dispatch(event.key);
+    }
+    destroy() {
+      window.removeEventListener("keydown", this._onKeyPress.bind(this));
+    }
+  };
+
+  // js/components/game-manager.ts
+  var _GameManager = class extends Component3 {
+    _buildingPlacing;
+    _keyboardLogic;
+    static get instance() {
+      return _GameManager._instance;
+    }
+    init() {
+      if (_GameManager._instance) {
+        console.error("There can only be one instance of GameManager Component");
+      }
+      _GameManager._instance = this;
+    }
+    start() {
+      this._buildingPlacing = new BuildingPlacing();
+      this._keyboardLogic = new KeyboardLogic();
+    }
+    update(dt) {
+    }
+    onDestroy() {
+      this._keyboardLogic.destroy();
+    }
+  };
+  var GameManager = _GameManager;
+  __publicField(GameManager, "TypeName", "game-manager");
+  // Singleton
+  __publicField(GameManager, "_instance");
+
   // js/components/grid-generator.ts
   var grid_generator_exports = {};
   __export(grid_generator_exports, {
@@ -12259,15 +12527,85 @@
     TilePrefabs2[TilePrefabs2["Tile_Wood"] = 2] = "Tile_Wood";
     return TilePrefabs2;
   })(TilePrefabs || {});
-  var TileSpawner = class extends PrefabsBase {
+  var _TileSpawner = class extends Component3 {
+    static get instance() {
+      return _TileSpawner._instance;
+    }
     get PrefabBinName() {
       return "Tiles.bin";
     }
+    /**
+     * Reference to the root object containing all prefabs
+     */
+    _prefabs;
+    /**
+     * Gets the root object containing all prefabs
+     */
+    get prefabs() {
+      return this._prefabs;
+    }
+    /**
+     * Event emitter that notifies when prefabs are loaded
+     */
+    onPrefabsLoaded = new RetainEmitter();
+    _isLoaded = false;
+    /**
+     * Gets whether the prefabs have been loaded
+     */
+    get isLoaded() {
+      return this._isLoaded;
+    }
+    init() {
+      if (_TileSpawner._instance) {
+        console.error("There can only be one instance of TileSpawner Component");
+      }
+      _TileSpawner._instance = this;
+    }
+    /**
+     * Loads the prefabs bin file and initializes the prefabs
+     */
+    async start() {
+      const prefabData = await this.engine.loadPrefab(this.PrefabBinName);
+      const result = this.engine.scene.instantiate(prefabData);
+      this._prefabs = result.root;
+      this._prefabs.parent = this.object;
+      wlUtils.setActive(this._prefabs, false);
+      this._isLoaded = true;
+      setTimeout(() => this.onPrefabsLoaded.notify(this._prefabs), 0);
+    }
+    /**
+     * Spawns an object with the given name
+     * @param name Name of the prefab to spawn
+     * @param parent Optional parent object of the spawned object
+     * @param startActive Optional boolean to set the active state of the spawned object; default is true
+     * @returns The spawned object or null if spawn failed
+     */
+    spawn(name, parent = null, startActive = true) {
+      if (!this._prefabs) {
+        console.warn(`Spawning Failed. Prefabs not loaded`);
+        return null;
+      }
+      const prefab = this._prefabs.findByName(name)[0];
+      if (!prefab) {
+        console.warn(`Spawning Failed. Prefab with name ${name} not found`);
+        return null;
+      }
+      const clonedPrefab = prefab.clone(parent);
+      if (startActive) {
+        wlUtils.setActive(clonedPrefab, true);
+      }
+      clonedPrefab.resetPositionRotation();
+      return clonedPrefab;
+    }
   };
+  var TileSpawner = _TileSpawner;
   __publicField(TileSpawner, "TypeName", "tile-spawner");
   __publicField(TileSpawner, "InheritProperties", true);
+  __publicField(TileSpawner, "_instance");
 
   // js/components/grid-generator.ts
+  var tempQuat4 = quat_exports.create();
+  var tempVec36 = vec3_exports.create();
   var TileDefinition = class {
     tileType = 0 /* Tile_Grass */;
     noiseScale = 10;
@@ -12297,6 +12635,7 @@
     tileDefinitions = [];
     gridParent;
     _grid = /* @__PURE__ */ new Map();
+    _states = /* @__PURE__ */ new Map();
     userAction = 0 /* Inspect */;
     init() {
       if (_GridGenerator._instance && _GridGenerator._instance !== this) {
@@ -12310,12 +12649,25 @@
       if (!this.gridParent) {
         throw new Error("GridGenerator: gridParent property is not set.");
       }
+      TileSpawner.instance.onPrefabsLoaded.add(() => {
+        console.log("TileSpawner: Prefabs loaded. Creating grid.");
+        console.log(TileSpawner.instance.prefabs.children.length, "prefabs loaded.");
+      });
+      BuildingSpawner.instance.onPrefabsLoaded.add(() => {
+        console.log("BuildingSpawner: Prefabs loaded. Creating grid.");
+        console.log(BuildingSpawner.instance.prefabs.children.length, "prefabs loaded.");
+      });
       setTimeout(() => {
         this.restart();
-      }, 1e3);
+      }, 2e3);
+      GlobalEvents.instance.placeBuilding.add(this._onPlaceBuilding, this);
     }
     _createGrid() {
       this._grid.clear();
+      if (!TileSpawner.instance.prefabs) {
+        console.error("TileSpawner: Prefabs not initialized. Cannot create grid.");
+        return;
+      }
       for (let y = 0; y < this.gridSize[1]; y++) {
         for (let x = 0; x < this.gridSize[0]; x++) {
           let objectToSpawn = TilePrefabs[0 /* Tile_Grass */];
@@ -12332,6 +12684,11 @@
           const posX = x - this.gridSize[0] / 2 + 0.5;
           const posZ = y - this.gridSize[1] / 2 + 0.5;
           tile.setPositionWorld([posX, 0, posZ]);
+          vec3_exports.set(tempVec36, posX, 0, posZ);
+          vec3_exports.round(tempVec36, tempVec36);
+          const positionKey = `${tempVec36[0]},${tempVec36[1]},${tempVec36[2]}`;
+          const newState = { type: objectToSpawn };
+          this._grid.set(positionKey, newState);
         }
       }
     }
@@ -12345,6 +12702,49 @@
       if (_GridGenerator._instance === this) {
         _GridGenerator._instance = null;
       }
+    }
+    _onPlaceBuilding = (number, position, rotation) => {
+      vec3_exports.round(tempVec36, position);
+      const positionKey = `${tempVec36[0]},${tempVec36[1]},${tempVec36[2]}`;
+      if (!this.canPlace(position)) {
+        console.log(`GridGenerator: Position ${positionKey} is already occupied.`);
+        return;
+      }
+      let buildingType;
+      switch (number) {
+        case 0:
+          buildingType = "Building_Gatherer";
+          break;
+        case 1:
+          buildingType = "Building_Belt";
+          break;
+        default:
+          console.error("Invalid building type:", number);
+          return;
+      }
+      const newState = {
+        type: buildingType,
+        rotation
+      };
+      this._states.set(positionKey, newState);
+      console.log(`GridGenerator: Placed ${buildingType} at ${positionKey}`);
+      const buildingObject = BuildingSpawner.instance.spawn(buildingType);
+      buildingObject.getRotationWorld(tempQuat4);
+      quat_exports.rotateY(tempQuat4, tempQuat4, rotation * Math.PI / 180);
+      buildingObject.setPositionWorld(position);
+      buildingObject.setRotationWorld(tempQuat4);
+    };
+    canPlace(position) {
+      vec3_exports.round(tempVec36, position);
+      const positionKey = `${tempVec36[0]},${tempVec36[1]},${tempVec36[2]}`;
+      if (this._states.has(positionKey)) {
+        return false;
+      }
+      const tileState = this._grid.get(positionKey);
+      if (!tileState || tileState.type !== TilePrefabs[0 /* Tile_Grass */]) {
+        return false;
+      }
+      return true;
     }
   };
   var GridGenerator = _GridGenerator;
@@ -12368,14 +12768,26 @@
   var tempVec6 = new Float32Array(3);
   var _InteractionManager = class extends Component3 {
     highLight;
+    allowed = [1, 1, 1, 1];
+    notAllowed = [1, 0, 0, 1];
     static get instance() {
       return _InteractionManager._instance;
     }
+    // Store the material for quicker access
+    _highlightMaterial = null;
+    // Store the current placement state
+    _isCurrentlyAllowed = null;
     init() {
       if (_InteractionManager._instance) {
         console.error("There can only be one instance of InteractionManager Component");
       }
       _InteractionManager._instance = this;
+      const meshComp = this.highLight.findByNameRecursive("Box")?.[0]?.getComponent(MeshComponent);
+      if (meshComp) {
+        this._highlightMaterial = meshComp.material;
+      } else {
+        console.error("InteractionManager: Could not find MeshComponent on highlight object Box child.");
+      }
     }
     onActivate() {
       const p2 = this.object.getComponent(CursorTarget);
@@ -12385,6 +12797,7 @@
       p2.onMove.add(this._move);
       p2.onHover.add(this._hover);
       p2.onUnhover.add(this._unhover);
+      this._isCurrentlyAllowed = null;
     }
     onDeactivate() {
       const p2 = this.object.getComponent(CursorTarget);
@@ -12394,24 +12807,35 @@
       p2.onUnhover.remove(this._unhover);
       this._hovering = false;
       this._showMouse();
+      this._isCurrentlyAllowed = null;
     }
     _hovering = false;
     _click = (o, cursor, e) => {
+      this._roundPositionToTile(cursor);
+      GlobalEvents.instance.interaction.dispatch("click", tempVec6);
     };
     _move = (o, cursor, e) => {
-      if (!this._hovering) {
+      if (!this._hovering || !this._highlightMaterial) {
         return;
       }
-      cursor.cursorObject.getPositionWorld(tempVec6);
-      tempVec6[0] = Math.floor(tempVec6[0]) + 0.5;
-      tempVec6[2] = Math.floor(tempVec6[2]) + 0.5;
+      this._roundPositionToTile(cursor);
+      const canPlace = GridGenerator.instance.canPlace(tempVec6);
+      if (canPlace !== this._isCurrentlyAllowed) {
+        this._highlightMaterial.setColor(canPlace ? this.allowed : this.notAllowed);
+        this._isCurrentlyAllowed = canPlace;
+      }
       this.highLight.setPositionWorld(tempVec6);
     };
     _hover = (o, cursor, e) => {
-      if (!this._hovering) {
+      if (!this._hovering && this._highlightMaterial) {
         this._hovering = true;
         wlUtils.setActive(this.highLight, true);
         this._hideMouse();
+        this._roundPositionToTile(cursor);
+        const canPlace = GridGenerator.instance.canPlace(tempVec6);
+        this._highlightMaterial.setColor(canPlace ? this.allowed : this.notAllowed);
+        this._isCurrentlyAllowed = canPlace;
+        this.highLight.setPositionWorld(tempVec6);
       }
     };
     _unhover = (o, cursor, e) => {
@@ -12419,8 +12843,15 @@
         this._hovering = false;
         this._showMouse();
         wlUtils.setActive(this.highLight, false);
+        this._isCurrentlyAllowed = null;
       }
     };
+    _roundPositionToTile(cursor) {
+      cursor.cursorObject.getPositionWorld(tempVec6);
+      tempVec6[0] = Math.floor(tempVec6[0]) + 0.5;
+      tempVec6[1] = 0;
+      tempVec6[2] = Math.floor(tempVec6[2]) + 0.5;
+    }
     _hideMouse() {
       this.engine.canvas.style.cursor = "none";
     }
@@ -12435,11 +12866,18 @@
   __decorateClass([
     property.object({ required: true })
   ], InteractionManager.prototype, "highLight", 2);
+  __decorateClass([
+    property.color(1, 1, 1, 1)
+  ], InteractionManager.prototype, "allowed", 2);
+  __decorateClass([
+    property.color(1, 0, 0, 1)
+  ], InteractionManager.prototype, "notAllowed", 2);
 
   // cache/project-day-factory/js/_editor_index.js
   _registerEditor(dist_exports);
   _registerEditor(dist_exports2);
   _registerEditor(building_spawner_exports);
+  _registerEditor(game_manager_exports);
   _registerEditor(grid_generator_exports);
   _registerEditor(interaction_manager_exports);
   _registerEditor(tile_spawner_exports);

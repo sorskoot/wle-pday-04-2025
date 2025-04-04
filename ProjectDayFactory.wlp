@@ -47,7 +47,7 @@
                         "rayCastMode": "physx",
                         "maxDistance": 25.0,
                         "viewObject": "2",
-                        "cursorObject": "17",
+                        "cursorObject": "11",
                         "styleCursor": false
                     }
                 }
@@ -253,7 +253,19 @@
                 {
                     "type": "interaction-manager",
                     "interaction-manager": {
-                        "highLight": "18"
+                        "highLight": "18",
+                        "allowed": [
+                            0.0,
+                            0.3058822,
+                            1.0,
+                            0.5
+                        ],
+                        "notAllowed": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.5
+                        ]
                     }
                 },
                 {
@@ -273,15 +285,14 @@
                     "type": "mesh",
                     "mesh": {
                         "mesh": "3",
-                        "material": "4"
-                    },
-                    "active": false
+                        "material": "10"
+                    }
                 }
             ],
             "scaling": [
-                0.1,
-                0.1,
-                0.1
+                0.0099999,
+                0.0099999,
+                0.0099999
             ]
         },
         "18": {
@@ -289,7 +300,7 @@
             "parent": "16"
         },
         "19": {
-            "name": "Mesh.000",
+            "name": "Box",
             "parent": "18",
             "components": [
                 {
@@ -301,14 +312,61 @@
                 }
             ],
             "scaling": [
+                0.5099999,
+                0.5099999,
+                0.5099999
+            ],
+            "translation": [
+                0.0,
+                0.5,
+                0.0
+            ]
+        },
+        "20": {
+            "name": "BuildingPrefabs",
+            "parent": "9",
+            "components": [
+                {
+                    "type": "building-spawner"
+                }
+            ]
+        },
+        "21": {
+            "name": "GameManager",
+            "parent": "5",
+            "components": [
+                {
+                    "type": "game-manager"
+                }
+            ]
+        },
+        "22": {
+            "name": "Plane",
+            "parent": "18",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "1",
+                        "material": "11"
+                    }
+                }
+            ],
+            "scaling": [
                 0.5,
                 0.5,
                 0.5
             ],
             "translation": [
                 0.0,
-                0.5,
+                0.05,
                 0.0
+            ],
+            "rotation": [
+                -0.7071068,
+                0.0,
+                0.0,
+                0.7071068
             ]
         }
     },
@@ -597,6 +655,30 @@
                     0.3058822,
                     1.0,
                     0.5
+                ]
+            }
+        },
+        "10": {
+            "name": "Invisible",
+            "pipeline": "19",
+            "Flat": {
+                "color": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ]
+            }
+        },
+        "11": {
+            "name": "Highlight2",
+            "pipeline": "2",
+            "Flat": {
+                "color": [
+                    0.0,
+                    0.1739332,
+                    0.5686274,
+                    1.0
                 ]
             }
         }
@@ -930,7 +1012,8 @@
             },
             "libraryPaths": [
                 "/js/lib/"
-            ]
+            ],
+            "materialDefinitions": "js/materials.d.ts"
         },
         "rendering": {
             "hdr": {
@@ -950,11 +1033,15 @@
         },
         "workspace": {
             "files": [
-                "Tiles.wlp"
+                "Tiles.wlp",
+                "Buildings.wlp"
             ]
         },
         "physx": {
             "enable": true
+        },
+        "editor": {
+            "serverPort": 4256
         }
     },
     "animations": {},
@@ -1099,6 +1186,16 @@
             "blendSrcAlpha": "one",
             "blendDestRgb": "one",
             "blendDestAlpha": "one"
+        },
+        "19": {
+            "link": {
+                "name": "Flat Opaque",
+                "file": "default"
+            },
+            "name": "Never",
+            "depthWrite": false,
+            "depthTest": true,
+            "depthFunction": "never"
         }
     },
     "textures": {
