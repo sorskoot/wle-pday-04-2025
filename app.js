@@ -19,14 +19,9 @@ const Constants = {
     WebXROptionalFeatures: ['local','hand-tracking','hit-test',],
 };
 const RuntimeOptions = {
-    physx: false,
+    physx: true,
     loader: false,
     xrFramebufferScaleFactor: 1,
-    xrOfferSession: {
-        mode: 'auto',
-        features: Constants.WebXRRequiredFeatures,
-        optionalFeatures: Constants.WebXROptionalFeatures,
-    },
     canvas: 'canvas',
 };
 /* wle:auto-constants:end */

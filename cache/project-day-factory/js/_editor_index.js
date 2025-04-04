@@ -6,5 +6,7 @@ import * as _e__WLE_wle_pday_04_2025_js_components_building_spawner_ts from 'e:/
 _registerEditor(_e__WLE_wle_pday_04_2025_js_components_building_spawner_ts);
 import * as _e__WLE_wle_pday_04_2025_js_components_grid_generator_ts from 'e:/WLE/wle-pday-04-2025/js/components/grid-generator.ts';
 _registerEditor(_e__WLE_wle_pday_04_2025_js_components_grid_generator_ts);
+import * as _e__WLE_wle_pday_04_2025_js_components_interaction_manager_ts from 'e:/WLE/wle-pday-04-2025/js/components/interaction-manager.ts';
+_registerEditor(_e__WLE_wle_pday_04_2025_js_components_interaction_manager_ts);
 import * as _e__WLE_wle_pday_04_2025_js_components_tile_spawner_ts from 'e:/WLE/wle-pday-04-2025/js/components/tile-spawner.ts';
 _registerEditor(_e__WLE_wle_pday_04_2025_js_components_tile_spawner_ts);

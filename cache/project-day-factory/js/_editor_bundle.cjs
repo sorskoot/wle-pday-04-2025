@@ -12316,9 +12316,6 @@
     }
     _createGrid() {
       this._grid.clear();
-      while (this.gridParent.children.length > 0) {
-        this.gridParent.children[0].destroy();
-      }
       for (let y = 0; y < this.gridSize[1]; y++) {
         for (let x = 0; x < this.gridSize[0]; x++) {
           let objectToSpawn = TilePrefabs[0 /* Tile_Grass */];
@@ -12363,10 +12360,78 @@
     property.object({ required: true })
   ], GridGenerator.prototype, "gridParent", 2);
 
+  // js/components/interaction-manager.ts
+  var interaction_manager_exports = {};
+  __export(interaction_manager_exports, {
+    InteractionManager: () => InteractionManager
+  });
+  var tempVec6 = new Float32Array(3);
+  var _InteractionManager = class extends Component3 {
+    highLight;
+    static get instance() {
+      return _InteractionManager._instance;
+    }
+    init() {
+      if (_InteractionManager._instance) {
+        console.error("There can only be one instance of InteractionManager Component");
+      }
+      _InteractionManager._instance = this;
+    }
+    onActivate() {
+      const p2 = this.object.getComponent(CursorTarget);
+      this._hovering = false;
+      wlUtils.setActive(this.highLight, false);
+      p2.onClick.add(this._click);
+      p2.onMove.add(this._move);
+      p2.onHover.add(this._hover);
+      p2.onUnhover.add(this._unhover);
+    }
+    onDeactivate() {
+      const p2 = this.object.getComponent(CursorTarget);
+      p2.onClick.remove(this._click);
+      p2.onMove.remove(this._move);
+      p2.onHover.remove(this._hover);
+      p2.onUnhover.remove(this._unhover);
+      this._hovering = false;
+    }
+    _hovering = false;
+    _click = (o, cursor, e) => {
+    };
+    _move = (o, cursor, e) => {
+      if (!this._hovering) {
+        return;
+      }
+      cursor.cursorObject.getPositionWorld(tempVec6);
+      tempVec6[0] = Math.floor(tempVec6[0]) + 0.5;
+      tempVec6[2] = Math.floor(tempVec6[2]) + 0.5;
+      this.highLight.setPositionWorld(tempVec6);
+    };
+    _hover = (o, cursor, e) => {
+      if (!this._hovering) {
+        this._hovering = true;
+        wlUtils.setActive(this.highLight, true);
+      }
+    };
+    _unhover = (o, cursor, e) => {
+      if (this._hovering) {
+        this._hovering = false;
+        wlUtils.setActive(this.highLight, false);
+      }
+    };
+  };
+  var InteractionManager = _InteractionManager;
+  __publicField(InteractionManager, "TypeName", "interaction-manager");
+  // Singleton
+  __publicField(InteractionManager, "_instance");
+  __decorateClass([
+    property.object({ required: true })
+  ], InteractionManager.prototype, "highLight", 2);
+
   // cache/project-day-factory/js/_editor_index.js
   _registerEditor(dist_exports);
   _registerEditor(dist_exports2);
   _registerEditor(building_spawner_exports);
   _registerEditor(grid_generator_exports);
+  _registerEditor(interaction_manager_exports);
   _registerEditor(tile_spawner_exports);
 })();

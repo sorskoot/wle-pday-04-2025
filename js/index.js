@@ -9,17 +9,23 @@
  */
 
 /* wle:auto-imports:start */
+import {Cursor} from '@wonderlandengine/components';
+import {CursorTarget} from '@wonderlandengine/components';
 import {MouseLookComponent} from '@wonderlandengine/components';
 import {WasdControlsComponent} from '@wonderlandengine/components';
 import {GridGenerator} from './components/grid-generator.js';
+import {InteractionManager} from './components/interaction-manager.js';
 import {TileSpawner} from './components/tile-spawner.js';
 /* wle:auto-imports:end */
 
 export default function(engine) {
 /* wle:auto-register:start */
+engine.registerComponent(Cursor);
+engine.registerComponent(CursorTarget);
 engine.registerComponent(MouseLookComponent);
 engine.registerComponent(WasdControlsComponent);
 engine.registerComponent(GridGenerator);
+engine.registerComponent(InteractionManager);
 engine.registerComponent(TileSpawner);
 /* wle:auto-register:end */
 }

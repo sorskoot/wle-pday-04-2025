@@ -68,9 +68,9 @@ export class GridGenerator extends Component {
     private _createGrid(): void {
         this._grid.clear();
 
-        while (this.gridParent.children.length > 0) {
-            this.gridParent.children[0].destroy();
-        }
+        // while (this.gridParent.children.length > 0) {
+        //     this.gridParent.children[0].destroy();
+        // }
 
         for (let y = 0; y < this.gridSize[1]; y++) {
             for (let x = 0; x < this.gridSize[0]; x++) {

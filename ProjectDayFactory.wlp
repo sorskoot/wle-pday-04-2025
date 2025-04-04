@@ -36,7 +36,20 @@
                     "type": "view"
                 },
                 {
-                    "type": "mouse-look"
+                    "type": "mouse-look",
+                    "mouse-look": {
+                        "mouseButtonIndex": 2
+                    }
+                },
+                {
+                    "type": "cursor",
+                    "cursor": {
+                        "rayCastMode": "physx",
+                        "maxDistance": 25.0,
+                        "viewObject": "2",
+                        "cursorObject": "17",
+                        "styleCursor": false
+                    }
                 }
             ]
         },
@@ -79,12 +92,17 @@
                 {
                     "type": "light",
                     "light": {
-                        "intensity": 9.0,
-                        "type": "spot",
-                        "shadows": true,
+                        "intensity": 1.0,
+                        "type": "sun",
+                        "shadows": false,
                         "outerAngle": 120.0,
                         "innerAngle": 110.0,
-                        "shadowRange": 20.0
+                        "shadowRange": 20.0,
+                        "color": [
+                            0.0,
+                            0.1556267,
+                            0.5371024
+                        ]
                     }
                 }
             ],
@@ -212,6 +230,85 @@
                         "material": "2"
                     }
                 }
+            ]
+        },
+        "15": {
+            "name": "InteractionManager",
+            "parent": "5",
+            "components": [
+                {
+                    "type": "physx",
+                    "physx": {
+                        "shape": "plane",
+                        "static": true,
+                        "rotationOffset": [
+                            0.0,
+                            0.0,
+                            0.7071068,
+                            0.7071068
+                        ]
+                    },
+                    "active": true
+                },
+                {
+                    "type": "interaction-manager",
+                    "interaction-manager": {
+                        "highLight": "18"
+                    }
+                },
+                {
+                    "type": "cursor-target"
+                }
+            ]
+        },
+        "16": {
+            "name": "Internal",
+            "parent": "9"
+        },
+        "17": {
+            "name": "Cursor Object",
+            "parent": "16",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "3",
+                        "material": "4"
+                    },
+                    "active": false
+                }
+            ],
+            "scaling": [
+                0.1,
+                0.1,
+                0.1
+            ]
+        },
+        "18": {
+            "name": "Highlight",
+            "parent": "16"
+        },
+        "19": {
+            "name": "Mesh.000",
+            "parent": "18",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "2",
+                        "material": "9"
+                    }
+                }
+            ],
+            "scaling": [
+                0.5,
+                0.5,
+                0.5
+            ],
+            "translation": [
+                0.0,
+                0.5,
+                0.0
             ]
         }
     },
@@ -423,27 +520,27 @@
             "pipeline": "13",
             "Sky": {
                 "colorStop3": [
-                    0.57584,
-                    0.5798863,
-                    0.5803921,
+                    0.0,
+                    0.4470586,
+                    1.0,
                     1.0
                 ],
                 "colorStop2": [
-                    0.2023221,
-                    0.2037438,
-                    0.2039215,
+                    0.5213994,
+                    0.7829905,
+                    0.8156862,
                     1.0
                 ],
                 "colorStop1": [
-                    0.2023221,
-                    0.2037438,
-                    0.2039215,
+                    0.5213994,
+                    0.7829905,
+                    0.8156862,
                     1.0
                 ],
                 "colorStop0": [
-                    0.0,
-                    0.0,
-                    0.0,
+                    0.1801424,
+                    0.435294,
+                    0.0409688,
                     1.0
                 ]
             }
@@ -489,6 +586,18 @@
             "Physical": {
                 "albedoTexture": "2",
                 "metallicFactor": 0.0
+            }
+        },
+        "9": {
+            "name": "Highlight",
+            "pipeline": "18",
+            "Flat": {
+                "color": [
+                    0.0,
+                    0.3058822,
+                    1.0,
+                    0.5
+                ]
             }
         }
     },
@@ -799,7 +908,13 @@
         },
         "xr": {
             "leftEyeObject": "3",
-            "rightEyeObject": "4"
+            "rightEyeObject": "4",
+            "vr": {
+                "enable": false
+            },
+            "webxr": {
+                "offerSession": false
+            }
         },
         "scripting": {
             "application": {
@@ -824,6 +939,10 @@
             "sky": {
                 "enabled": true,
                 "material": "5"
+            },
+            "environment": {
+                "enabled": false,
+                "image": null
             }
         },
         "runtime": {
@@ -833,6 +952,9 @@
             "files": [
                 "Tiles.wlp"
             ]
+        },
+        "physx": {
+            "enable": true
         }
     },
     "animations": {},
@@ -965,6 +1087,18 @@
                 "name": "AtmosphericSky",
                 "file": "default"
             }
+        },
+        "18": {
+            "link": {
+                "name": "Flat Opaque",
+                "file": "default"
+            },
+            "name": "Flat Opaque Alpha",
+            "blending": true,
+            "blendSrcRgb": "source alpha",
+            "blendSrcAlpha": "one",
+            "blendDestRgb": "one",
+            "blendDestAlpha": "one"
         }
     },
     "textures": {
