@@ -41,7 +41,10 @@ export class InteractionManager extends Component {
         p.onHover.remove(this._hover);
         p.onUnhover.remove(this._unhover);
         this._hovering = false;
+
+        this._showMouse();
     }
+
     private _hovering = false;
 
     private _click = (o, cursor: Cursor, e) => {};
@@ -59,12 +62,21 @@ export class InteractionManager extends Component {
         if (!this._hovering) {
             this._hovering = true;
             wlUtils.setActive(this.highLight, true);
+            this._hideMouse();
         }
     };
     private _unhover = (o, cursor: Cursor, e) => {
         if (this._hovering) {
             this._hovering = false;
+            this._showMouse();
             wlUtils.setActive(this.highLight, false);
         }
     };
+
+    private _hideMouse() {
+        this.engine.canvas.style.cursor = 'none';
+    }
+    private _showMouse() {
+        this.engine.canvas.style.cursor = 'auto';
+    }
 }

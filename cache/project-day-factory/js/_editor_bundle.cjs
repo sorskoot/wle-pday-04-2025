@@ -12393,6 +12393,7 @@
       p2.onHover.remove(this._hover);
       p2.onUnhover.remove(this._unhover);
       this._hovering = false;
+      this._showMouse();
     }
     _hovering = false;
     _click = (o, cursor, e) => {
@@ -12410,14 +12411,22 @@
       if (!this._hovering) {
         this._hovering = true;
         wlUtils.setActive(this.highLight, true);
+        this._hideMouse();
       }
     };
     _unhover = (o, cursor, e) => {
       if (this._hovering) {
         this._hovering = false;
+        this._showMouse();
         wlUtils.setActive(this.highLight, false);
       }
     };
+    _hideMouse() {
+      this.engine.canvas.style.cursor = "none";
+    }
+    _showMouse() {
+      this.engine.canvas.style.cursor = "auto";
+    }
   };
   var InteractionManager = _InteractionManager;
   __publicField(InteractionManager, "TypeName", "interaction-manager");
