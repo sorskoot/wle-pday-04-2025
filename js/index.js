@@ -11,11 +11,15 @@
 /* wle:auto-imports:start */
 import {MouseLookComponent} from '@wonderlandengine/components';
 import {WasdControlsComponent} from '@wonderlandengine/components';
+import {GridGenerator} from './components/grid-generator.js';
+import {TileSpawner} from './components/tile-spawner.js';
 /* wle:auto-imports:end */
 
 export default function(engine) {
 /* wle:auto-register:start */
 engine.registerComponent(MouseLookComponent);
 engine.registerComponent(WasdControlsComponent);
+engine.registerComponent(GridGenerator);
+engine.registerComponent(TileSpawner);
 /* wle:auto-register:end */
 }

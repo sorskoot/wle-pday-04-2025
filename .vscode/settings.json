@@ -1,0 +1,8 @@
+{
+    "github.copilot.chat.commitMessageGeneration.instructions": [
+        {
+            "text": "Use imperative text, with a group prefix if applicable. Keep it short. Feel free to add an emoji at the end if that fits the change."
+        }
+    ],
+    "WonderlandSnippets.execPath": "e:\\Tools\\Wonderland Nightly\\bin\\WonderlandEditor.exe"
+}

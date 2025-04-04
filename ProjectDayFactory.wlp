@@ -6,7 +6,8 @@
                 {
                     "type": "wasd-controls",
                     "wasd-controls": {
-                        "headObject": "77"
+                        "headObject": "2",
+                        "lockY": true
                     }
                 }
             ],
@@ -70,94 +71,9 @@
             ]
         },
         "5": {
-            "name": "FloorPlane",
-            "components": [
-                {
-                    "type": "mesh",
-                    "mesh": {
-                        "mesh": "1",
-                        "material": "1"
-                    }
-                }
-            ],
-            "scaling": [
-                15.9999961,
-                16.0,
-                16.0
-            ],
-            "translation": [
-                0.0,
-                -0.0,
-                1.1921009956950004e-7
-            ],
-            "rotation": [
-                -0.7072544,
-                0.0,
-                0.0,
-                0.7069591
-            ]
+            "name": "[ Managers ]"
         },
         "6": {
-            "name": "Cube",
-            "components": [
-                {
-                    "type": "mesh",
-                    "mesh": {
-                        "mesh": "2",
-                        "material": "2"
-                    }
-                }
-            ],
-            "scaling": [
-                0.5,
-                0.5,
-                0.5
-            ],
-            "translation": [
-                -0.6665739,
-                0.4999999,
-                0.5696738
-            ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0,
-                1.0
-            ]
-        },
-        "7": {
-            "name": "Light",
-            "components": [
-                {
-                    "type": "light",
-                    "light": {
-                        "intensity": 9.0,
-                        "type": "spot",
-                        "outerAngle": 120.0,
-                        "shadows": true,
-                        "shadowRange": 20.0,
-                        "innerAngle": 110.0
-                    }
-                }
-            ],
-            "scaling": [
-                1.0000013,
-                0.9999992,
-                1.0
-            ],
-            "translation": [
-                -0.2080335,
-                3.2420806,
-                2.9316577
-            ],
-            "rotation": [
-                0.2517567,
-                -0.7649071,
-                -0.1853631,
-                0.5631838
-            ]
-        },
-        "8": {
             "name": "Light.000",
             "components": [
                 {
@@ -174,76 +90,216 @@
             ],
             "scaling": [
                 0.9999988,
-                0.9999977,
+                0.9999976,
                 0.9999989
             ],
             "translation": [
-                -2.3912234,
+                -2.3912231,
                 3.4619092,
-                -3.0973172
+                -3.0973174
             ],
             "rotation": [
                 -0.3265219,
-                0.1176851,
+                0.117685,
                 0.3179933,
                 0.8822776
+            ],
+            "parent": "10"
+        },
+        "7": {
+            "name": "Light",
+            "components": [
+                {
+                    "type": "light",
+                    "light": {
+                        "intensity": 1.0,
+                        "type": "sun",
+                        "outerAngle": 120.0,
+                        "shadows": true,
+                        "shadowRange": 20.0,
+                        "innerAngle": 110.0
+                    }
+                }
+            ],
+            "scaling": [
+                1.0000013,
+                0.9999992,
+                1.0
+            ],
+            "translation": [
+                -0.2080334,
+                3.2420809,
+                2.931658
+            ],
+            "rotation": [
+                0.2517566,
+                -0.7649072,
+                -0.1853631,
+                0.5631838
+            ],
+            "parent": "10"
+        },
+        "8": {
+            "name": "GridManager",
+            "parent": "5",
+            "components": [
+                {
+                    "type": "grid-generator",
+                    "grid-generator": {
+                        "tileDefinitions": [
+                            {},
+                            {
+                                "tileType": "Tile_Rock",
+                                "noiseOffset": 0.5,
+                                "noiseScale": 8.8800001,
+                                "noiseThreshold": 0.6999999
+                            },
+                            {
+                                "tileType": "Tile_Wood",
+                                "noiseThreshold": 0.8,
+                                "noiseScale": 9.0
+                            }
+                        ],
+                        "gridParent": "18",
+                        "gridSize": [
+                            64.0,
+                            64.0
+                        ]
+                    }
+                }
             ]
         },
         "9": {
-            "name": "Cone",
+            "name": "[ Prefabs ]"
+        },
+        "10": {
+            "name": "[ Lights ]"
+        },
+        "11": {
+            "name": "TilePrefabs",
+            "parent": "9",
+            "components": [
+                {
+                    "type": "tile-spawner"
+                }
+            ]
+        },
+        "12": {
+            "name": "[ Material Definitions ]"
+        },
+        "13": {
+            "name": "resource",
+            "parent": "12",
             "components": [
                 {
                     "type": "mesh",
                     "mesh": {
-                        "mesh": "4",
-                        "material": "3"
+                        "mesh": "2",
+                        "material": null
                     }
                 }
             ],
             "scaling": [
-                1.0,
-                1.0,
-                1.0
+                0.001,
+                0.001,
+                0.001
+            ]
+        },
+        "14": {
+            "name": "grass",
+            "parent": "12",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "2",
+                        "material": "2"
+                    }
+                }
             ],
-            "translation": [
-                0.8334258,
-                1.0,
-                0.5696737
+            "scaling": [
+                0.001,
+                0.001,
+                0.001
+            ]
+        },
+        "15": {
+            "name": "hexagons_medieval",
+            "parent": "12",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "2",
+                        "material": "8"
+                    }
+                }
             ],
-            "rotation": [
-                0.0,
-                0.0,
-                0.0,
+            "scaling": [
+                0.001,
+                0.001,
+                0.001
+            ]
+        },
+        "16": {
+            "name": "Mesh",
+            "parent": "12",
+            "scaling": [
+                1.0,
+                1.0,
                 1.0
             ]
         },
-        "10": {
-            "name": "Sphere",
+        "17": {
+            "name": "Mesh",
+            "parent": "12",
             "components": [
                 {
                     "type": "mesh",
                     "mesh": {
-                        "mesh": "3",
-                        "material": "4"
+                        "material": "4",
+                        "mesh": "2"
                     }
                 }
             ],
             "scaling": [
-                0.75,
-                0.75,
-                0.75
-            ],
+                0.001,
+                0.001,
+                0.001
+            ]
+        },
+        "18": {
+            "name": "GridRoot"
+        },
+        "19": {
+            "link": {
+                "name": "Stone_Chunks_Large",
+                "file": "assets\\Models\\Stone_Chunks_Large.fbx"
+            },
+            "parent": "16",
             "translation": [
-                -0.166574,
-                0.75,
-                -0.6803262
+                3.5,
+                0.0,
+                0.0
             ],
             "rotation": [
+                -0.7071068,
                 0.0,
                 0.0,
-                0.0,
-                1.0
+                0.7071067
+            ],
+            "scaling": [
+                1.0,
+                0.9999994,
+                0.9999994
             ]
+        },
+        "20": {
+            "link": {
+                "name": "tree_single_A",
+                "file": "assets\\Models\\tree_single_A.fbx"
+            },
+            "parent": "16"
         }
     },
     "meshes": {
@@ -282,6 +338,18 @@
                 "name": "PrimitiveCircle",
                 "file": "default"
             }
+        },
+        "7": {
+            "link": {
+                "name": "mesh_0",
+                "file": "assets\\Models\\Stone_Chunks_Large.fbx"
+            }
+        },
+        "8": {
+            "link": {
+                "name": "mesh_0",
+                "file": "assets\\Models\\tree_single_A.fbx"
+            }
         }
     },
     "materials": {
@@ -294,39 +362,14 @@
                 "font": "1"
             }
         },
-        "1": {
-            "name": "White",
-            "Phong": {
-                "specularColor": [
-                    9.999899930335232e-7,
-                    9.99993744699168e-7,
-                    9.999999974752427e-7,
-                    1.0
-                ],
-                "shininess": 1,
-                "emissiveColor": [
-                    0.2,
-                    0.2,
-                    0.2,
-                    1.0
-                ],
-                "ambientColor": [
-                    0.05,
-                    0.05,
-                    0.05,
-                    1.0
-                ],
-                "diffuseColor": [
-                    0.5,
-                    0.5,
-                    0.5,
-                    1.0
-                ]
-            },
-            "pipeline": "5"
+        "7": {
+            "link": {
+                "name": "resource",
+                "file": "assets\\Models\\Stone_Chunks_Large.fbx"
+            }
         },
         "2": {
-            "name": "Pink",
+            "name": "grass",
             "Phong": {
                 "diffuseColor": [
                     0.9098039,
@@ -354,7 +397,15 @@
                     1.0
                 ]
             },
-            "pipeline": "5"
+            "pipeline": "2",
+            "Flat": {
+                "color": [
+                    0.0,
+                    0.6117646,
+                    0.2015224,
+                    1.0
+                ]
+            }
         },
         "3": {
             "name": "Yellow",
@@ -382,9 +433,10 @@
                     0.2080737,
                     0.0,
                     1.0
-                ]
+                ],
+                "diffuseTexture": "1"
             },
-            "pipeline": "5"
+            "pipeline": "6"
         },
         "4": {
             "name": "Green",
@@ -471,6 +523,12 @@
                     0.0,
                     1.0
                 ]
+            }
+        },
+        "8": {
+            "link": {
+                "name": "hexagons_medieval",
+                "file": "assets\\Models\\tree_single_A.fbx"
             }
         }
     },
@@ -789,7 +847,11 @@
                 "bundling": "esbuild"
             },
             "components": {
-                "output": "ProjectDayFactory-bundle.js"
+                "output": "ProjectDayFactory-bundle.js",
+                "sourcePaths": [
+                    "js/",
+                    "js/components"
+                ]
             },
             "libraryPaths": [
                 "/js/lib/"
@@ -806,6 +868,11 @@
         },
         "runtime": {
             "viewObject": "2"
+        },
+        "workspace": {
+            "files": [
+                "Tiles.wlp"
+            ]
         }
     },
     "animations": {},
@@ -938,8 +1005,48 @@
             }
         }
     },
-    "textures": {},
-    "images": {},
+    "textures": {
+        "1": {
+            "link": {
+                "name": "resource_bits_texture.png",
+                "file": "assets\\Textures\\resource_bits_texture.png"
+            }
+        },
+        "2": {
+            "link": {
+                "name": "hexagons_medieval.png",
+                "file": "assets\\Textures\\hexagons_medieval.png"
+            }
+        },
+        "3": {
+            "link": {
+                "name": "base_color_texture",
+                "file": "assets\\Models\\Stone_Chunks_Large.fbx"
+            },
+            "image": "1"
+        },
+        "4": {
+            "link": {
+                "name": "base_color_texture",
+                "file": "assets\\Models\\tree_single_A.fbx"
+            },
+            "image": "2"
+        }
+    },
+    "images": {
+        "1": {
+            "link": {
+                "name": "resource_bits_texture.png",
+                "file": "assets\\Textures\\resource_bits_texture.png"
+            }
+        },
+        "2": {
+            "link": {
+                "name": "hexagons_medieval.png",
+                "file": "assets\\Textures\\hexagons_medieval.png"
+            }
+        }
+    },
     "fonts": {
         "1": {
             "link": {
@@ -949,7 +1056,26 @@
         }
     },
     "languages": {},
-    "files": {},
+    "files": {
+        "1": {
+            "fileName": "assets/Textures/resource_bits_texture.png",
+            "importerName": ""
+        },
+        "2": {
+            "fileName": "assets/Textures/hexagons_medieval.png",
+            "importerName": ""
+        },
+        "3": {
+            "fileName": "assets/Models/Stone_Chunks_Large.fbx",
+            "importerName": "",
+            "importPhysicalAsPhongMaterials": true
+        },
+        "4": {
+            "fileName": "assets/Models/tree_single_A.fbx",
+            "importerName": "",
+            "importPhysicalAsPhongMaterials": true
+        }
+    },
     "morphTargets": {},
     "particleEffects": {}
 }

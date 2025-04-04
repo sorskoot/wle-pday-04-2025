@@ -12363,7 +12363,7 @@
     property.object({ required: true })
   ], GridGenerator.prototype, "gridParent", 2);
 
-  // cache/project-day-factory/js/_editor_index.js
+  // cache/tiles/js/_editor_index.js
   _registerEditor(dist_exports);
   _registerEditor(dist_exports2);
   _registerEditor(building_spawner_exports);
